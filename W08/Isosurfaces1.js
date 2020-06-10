@@ -10,16 +10,12 @@ function Isosurfaces( volume, isovalue )
     var lut = new KVS.MarchingCubesTable();
     
     // Create color map
-    var cmap = [];
-    for ( var i = 0; i < 256; i++ )
-    {
-        var S = i / 255.0; // [0,1]
-        var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
-        var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
-        var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
-        var color = new THREE.Color( R, G, B );
-        cmap.push( [ S, '0x' + color.getHexString() ] );
-    }
+    
+    var S = isovalue / 255.0; // [0,1]
+    var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
+    var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
+    var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
+    
 
     var cell_index = 0;
     var counter = 0;
@@ -69,10 +65,10 @@ function Isosurfaces( volume, isovalue )
                     geometry.faces.push( new THREE.Face3( id0, id1, id2 ) );
 
 		    // Assign colors for each vertex
-		    material.vertexColors = THREE.FaceColors;
-		    var C = new THREE.Color().setHex( cmap[ index ][1] );
-		    geometry.faces[zarigani].color = C;
-		    zarigani++;
+		    //material.vertexColors = THREE.FaceColors;
+		    //var C = new THREE.Color().setHex( cmap[ index ][1] );
+		    //geometry.faces[zarigani].color = C;
+		    //zarigani++;
                 }
             }
             cell_index++;
@@ -81,6 +77,8 @@ function Isosurfaces( volume, isovalue )
     }
 
     geometry.computeVertexNormals();
+
+    material.color = new THREE.Color( R, G, B );
 
     return new THREE.Mesh( geometry, material );
 
