@@ -25,7 +25,7 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 //Read the data
-d3.csv("./Sparadata.csv",
+d3.csv("https://tykb715.github.io/InfoVis2020/W12/Sparadata.csv",
   // When reading the csv, I must format variables:
   function(d){
     return { frequency : d.frequency, value : d.value }
